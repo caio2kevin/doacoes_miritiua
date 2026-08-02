@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sistema de Doações de Equipamentos Tecnológicos – Miritiua/MA
 
 **MVP – Atividade Extensionista II (UNINTER)**  
@@ -153,3 +154,7 @@ python -c "from app import app, db; app.app_context().push(); db.create_all()"
 
 Projeto acadêmico – uso livre para fins educacionais e sociais.
 Elaborado por Caio Henrique Da Silva Cunha – UNINTER – 2026.
+=======
+# doacoes_miritiua
+Sistema web gratuito para conectar doadores de equipamentos tecnológicos a moradores, estudantes e instituições do bairro Miritiua (São José de Ribamar/MA)
+>>>>>>> ff1353313d75eb0b773b14e65225253555218b2a
