@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Minhas solicitações{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Minhas solicitações de doação</h2>
+{% if doacoes %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle bg-white shadow-sm">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Equipamento</th>
+          <th>Data</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in doacoes %}
+          <tr>
+            <td>{{ d.id }}</td>
+            <td>
+              {{ d.equipamento.tipo|capitalize }}
+              {{ d.equipamento.marca or '' }} {{ d.equipamento.modelo or '' }}
+            </td>
+            <td>{{ d.data_solicitacao.strftime('%d/%m/%Y') }}</td>
+            <td>
+              {% if d.status == 'entregue' %}
+                <span class="badge bg-success">Entregue</span>
+              {% elif d.status == 'cancelada' %}
+                <span class="badge bg-danger">Cancelada</span>
+              {% else %}
+                <span class="badge bg-primary">{{ d.status|replace('_', ' ')|capitalize }}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">
+    Você ainda não solicitou nenhum equipamento.
+    <a href="{{ url_for('listar_equipamentos') }}">Ver disponíveis</a>
+  </div>
+{% endif %}
+{% endblock %}

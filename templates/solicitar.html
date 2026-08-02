@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Solicitar doação{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-3">Confirmar solicitação</h3>
+        <div class="alert alert-light border">
+          <strong>{{ equipamento.tipo|capitalize }}</strong>
+          {{ equipamento.marca or '' }} {{ equipamento.modelo or '' }}<br>
+          <span class="text-muted">Estado: {{ equipamento.estado }}</span><br>
+          {% if equipamento.descricao %}
+            <small>{{ equipamento.descricao }}</small>
+          {% endif %}
+        </div>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Observação (opcional)</label>
+            <textarea name="observacao" class="form-control" rows="2"
+                      placeholder="Informações adicionais para o doador ou administrador"></textarea>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success btn-lg">
+              Confirmar solicitação
+            </button>
+            <a href="{{ url_for('listar_equipamentos') }}" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

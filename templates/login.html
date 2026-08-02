@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Entrar – Doações Miritiua{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-4 text-center">Entrar no sistema</h3>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input type="email" name="email" class="form-control" required autofocus
+                   placeholder="seu@email.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input type="password" name="senha" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        </form>
+        <hr>
+        <p class="text-center small mb-0">
+          Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+        </p>
+        <div class="mt-3 p-2 bg-light rounded small text-muted">
+          <strong>Contas de teste:</strong><br>
+          Admin: admin@miritiua.org / admin123<br>
+          Doador: maria@email.com / 123456<br>
+          Receptor: joao@email.com / 123456
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

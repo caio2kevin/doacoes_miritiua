@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Cadastrar equipamento{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-4">Cadastrar equipamento para doação</h3>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Tipo *</label>
+            <select name="tipo" class="form-select" required>
+              <option value="notebook">Notebook</option>
+              <option value="desktop">Desktop / CPU</option>
+              <option value="tablet">Tablet</option>
+              <option value="smartphone">Smartphone</option>
+              <option value="monitor">Monitor</option>
+              <option value="impressora">Impressora</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Marca</label>
+              <input type="text" name="marca" class="form-control" placeholder="Dell, HP, Samsung...">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Modelo</label>
+              <input type="text" name="modelo" class="form-control">
+            </div>
+          </div>
+          <div class="mb-3 mt-3">
+            <label class="form-label">Estado de conservação</label>
+            <select name="estado" class="form-select">
+              <option value="excelente">Excelente</option>
+              <option value="bom" selected>Bom</option>
+              <option value="regular">Regular</option>
+              <option value="precisa_reparo">Precisa de reparo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descrição / observações</label>
+            <textarea name="descricao" class="form-control" rows="3"
+                      placeholder="Ex: funciona bem, tela pequena, ideal para estudos..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-heart"></i> Disponibilizar para doação
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

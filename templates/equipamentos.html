@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Equipamentos disponíveis{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <h2 class="mb-0"><i class="bi bi-laptop"></i> Equipamentos disponíveis</h2>
+  {% if session.get('tipo') == 'doador' %}
+    <a href="{{ url_for('novo_equipamento') }}" class="btn btn-success">
+      <i class="bi bi-plus-lg"></i> Cadastrar equipamento
+    </a>
+  {% endif %}
+</div>
+
+<form class="row g-2 mb-4" method="get">
+  <div class="col-md-5">
+    <input type="text" name="q" class="form-control" placeholder="Buscar marca, modelo..." value="{{ q }}">
+  </div>
+  <div class="col-md-4">
+    <select name="tipo" class="form-select">
+      <option value="">Todos os tipos</option>
+      {% for t in tipos %}
+        <option value="{{ t }}" {% if tipo_filtro == t %}selected{% endif %}>{{ t|capitalize }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+  </div>
+</form>
+
+{% if equipamentos %}
+  <div class="row g-3">
+    {% for eq in equipamentos %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <span class="badge bg-primary mb-2">{{ eq.tipo|capitalize }}</span>
+            <h5 class="card-title">{{ eq.marca or '' }} {{ eq.modelo or '' }}</h5>
+            <p class="card-text text-muted small mb-1">
+              Estado: <strong>{{ eq.estado }}</strong>
+            </p>
+            {% if eq.descricao %}
+              <p class="card-text small">{{ eq.descricao[:100] }}{% if eq.descricao|length > 100 %}...{% endif %}</p>
+            {% endif %}
+            <p class="small text-muted mb-0">
+              Doado por: {{ eq.doador.usuario.nome }}
+            </p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            {% if session.get('tipo') == 'receptor' %}
+              <a href="{{ url_for('solicitar_doacao', equip_id=eq.id) }}" class="btn btn-success btn-sm w-100">
+                Solicitar este equipamento
+              </a>
+            {% elif not session.get('usuario_id') %}
+              <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-sm w-100">
+                Entre para solicitar
+              </a>
+            {% else %}
+              <button class="btn btn-secondary btn-sm w-100" disabled>Disponível</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">
+    Nenhum equipamento disponível no momento. Volte em breve!
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Painel Administrativo</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h3 class="text-primary">{{ total_equip }}</h3>
+        <small class="text-muted">Total de equipamentos</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h3 class="text-success">{{ disponiveis }}</h3>
+        <small class="text-muted">Disponíveis agora</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h3 class="text-info">{{ entregues }}</h3>
+        <small class="text-muted">Doações entregues</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Receptores por urgência -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-white fw-bold">
+    Receptores priorizados por urgência
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Nome</th>
+            <th>Bairro</th>
+            <th>Estudante</th>
+            <th>Urgência</th>
+            <th>Alterar urgência</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in receptores %}
+            <tr>
+              <td>{{ r.usuario.nome }}</td>
+              <td>{{ r.bairro }}</td>
+              <td>
+                {% if r.estudante %}
+                  <span class="badge bg-info">Sim</span>
+                {% else %}
+                  Não
+                {% endif %}
+              </td>
+              <td>
+                <span class="badge urgencia-{{ r.urgencia }}">
+                  {{ r.urgencia }} –
+                  {% if r.urgencia == 4 %}Crítica
+                  {% elif r.urgencia == 3 %}Alta
+                  {% elif r.urgencia == 2 %}Média
+                  {% else %}Baixa{% endif %}
+                </span>
+              </td>
+              <td>
+                <form method="post" action="{{ url_for('atualizar_urgencia', rec_id=r.id) }}" class="d-flex gap-1">
+                  <select name="urgencia" class="form-select form-select-sm" style="width:auto">
+                    <option value="1" {% if r.urgencia==1 %}selected{% endif %}>1</option>
+                    <option value="2" {% if r.urgencia==2 %}selected{% endif %}>2</option>
+                    <option value="3" {% if r.urgencia==3 %}selected{% endif %}>3</option>
+                    <option value="4" {% if r.urgencia==4 %}selected{% endif %}>4</option>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-outline-primary">OK</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5" class="text-center text-muted">Nenhum receptor cadastrado.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Doações em andamento -->
+<div class="card shadow-sm">
+  <div class="card-header bg-white fw-bold">
+    Doações em andamento
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Equipamento</th>
+            <th>Receptor</th>
+            <th>Urgência</th>
+            <th>Status</th>
+            <th>Atualizar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in doacoes_pendentes %}
+            <tr>
+              <td>{{ d.id }}</td>
+              <td>
+                {{ d.equipamento.tipo|capitalize }}
+                {{ d.equipamento.marca or '' }} {{ d.equipamento.modelo or '' }}
+              </td>
+              <td>{{ d.receptor.usuario.nome }}</td>
+              <td>
+                <span class="badge urgencia-{{ d.receptor.urgencia }}">{{ d.receptor.urgencia }}</span>
+              </td>
+              <td><span class="badge bg-secondary">{{ d.status }}</span></td>
+              <td>
+                <form method="post" action="{{ url_for('atualizar_status_doacao', doacao_id=d.id) }}" class="d-flex gap-1">
+                  <select name="status" class="form-select form-select-sm" style="width:auto">
+                    <option value="solicitada" {% if d.status=='solicitada' %}selected{% endif %}>Solicitada</option>
+                    <option value="aprovada" {% if d.status=='aprovada' %}selected{% endif %}>Aprovada</option>
+                    <option value="em_transito" {% if d.status=='em_transito' %}selected{% endif %}>Em trânsito</option>
+                    <option value="entregue" {% if d.status=='entregue' %}selected{% endif %}>Entregue</option>
+                    <option value="cancelada" {% if d.status=='cancelada' %}selected{% endif %}>Cancelada</option>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="6" class="text-center text-muted">Nenhuma doação pendente.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

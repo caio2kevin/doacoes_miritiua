@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Solicitação registrada{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6 text-center">
+    <div class="card shadow-sm">
+      <div class="card-body p-5">
+        <i class="bi bi-check-circle-fill text-success display-1"></i>
+        <h3 class="mt-3">Solicitação registrada!</h3>
+        <p class="text-muted">
+          Seu pedido do equipamento
+          <strong>{{ doacao.equipamento.tipo }} {{ doacao.equipamento.marca or '' }}</strong>
+          foi enviado. O administrador irá analisar e priorizar conforme a urgência.
+        </p>
+        <a href="{{ link_whatsapp }}" target="_blank" class="btn btn-whatsapp btn-lg mb-3">
+          <i class="bi bi-whatsapp"></i> Avisar o doador pelo WhatsApp
+        </a>
+        <br>
+        <a href="{{ url_for('minhas_doacoes') }}" class="btn btn-outline-primary">
+          Ver minhas solicitações
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

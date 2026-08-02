@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Cadastro – Doações Miritiua{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-4">Criar conta</h3>
+        <form method="post" id="formCadastro">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Nome completo *</label>
+              <input type="text" name="nome" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">E-mail *</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">WhatsApp (com DDD) *</label>
+              <input type="tel" name="telefone" class="form-control" required
+                     placeholder="98999999999">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Senha *</label>
+              <input type="password" name="senha" class="form-control" required minlength="6">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Tipo de cadastro *</label>
+              <select name="tipo" id="tipo" class="form-select" required>
+                <option value="receptor">Receptor (morador / estudante do Miritiua)</option>
+                <option value="doador">Doador de equipamentos</option>
+                <option value="instituicao">Instituição / Escola / ONG</option>
+              </select>
+            </div>
+
+            <!-- Campos específicos Receptor -->
+            <div id="campos-receptor" class="col-12">
+              <div class="row g-3 border rounded p-3 bg-light">
+                <div class="col-md-6">
+                  <label class="form-label">Bairro</label>
+                  <input type="text" name="bairro" class="form-control" value="Miritiua">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Nível de urgência</label>
+                  <select name="urgencia" class="form-select">
+                    <option value="1">1 – Baixa</option>
+                    <option value="2" selected>2 – Média</option>
+                    <option value="3">3 – Alta</option>
+                    <option value="4">4 – Crítica (estudante sem equipamento)</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="estudante" id="estudante">
+                    <label class="form-check-label" for="estudante">Sou estudante</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="idade_escolar" id="idade_escolar">
+                    <label class="form-check-label" for="idade_escolar">Em idade escolar</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Observação (opcional)</label>
+                  <textarea name="observacao" class="form-control" rows="2"
+                            placeholder="Ex: preciso de notebook para aulas online"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campos específicos Doador -->
+            <div id="campos-doador" class="col-12 d-none">
+              <div class="row g-3 border rounded p-3 bg-light">
+                <div class="col-md-6">
+                  <label class="form-label">Cidade</label>
+                  <input type="text" name="cidade" class="form-control" value="São Luís">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Bairro</label>
+                  <input type="text" name="bairro_doador" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <!-- Campos específicos Instituição -->
+            <div id="campos-instituicao" class="col-12 d-none">
+              <div class="row g-3 border rounded p-3 bg-light">
+                <div class="col-md-6">
+                  <label class="form-label">Nome da instituição *</label>
+                  <input type="text" name="nome_instituicao" class="form-control">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Tipo</label>
+                  <select name="tipo_inst" class="form-select">
+                    <option value="escola">Escola</option>
+                    <option value="ong">ONG</option>
+                    <option value="associacao">Associação</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Endereço</label>
+                  <input type="text" name="endereco" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary w-100 btn-lg">Cadastrar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const tipo = document.getElementById('tipo');
+  const receptor = document.getElementById('campos-receptor');
+  const doador = document.getElementById('campos-doador');
+  const instituicao = document.getElementById('campos-instituicao');
+
+  function atualizarCampos() {
+    receptor.classList.add('d-none');
+    doador.classList.add('d-none');
+    instituicao.classList.add('d-none');
+    if (tipo.value === 'receptor') receptor.classList.remove('d-none');
+    if (tipo.value === 'doador') doador.classList.remove('d-none');
+    if (tipo.value === 'instituicao') instituicao.classList.remove('d-none');
+  }
+  tipo.addEventListener('change', atualizarCampos);
+  atualizarCampos();
+</script>
+{% endblock %}
